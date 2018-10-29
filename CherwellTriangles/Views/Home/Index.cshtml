@@ -1,0 +1,186 @@
+﻿<div class="container">
+    <h2>Joe Dean</h2>
+    <h4>Cherwell Triangles API sample usage</h4>
+
+    <div class="row row-height">
+
+        <div class="col-sm-6 left-column">
+            <p class="lead">1.A - Enter a row and column to produce triangle coordinates.</p>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="rowlist">Row:</label>
+                    <select class="form-control" id="rowlist">
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                        <option>D</option>
+                        <option>E</option>
+                        <option>F</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+
+                    <label for="columnlist">Column:</label>
+                    <select class="form-control" id="columnlist">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                    </select>
+                </div>
+
+            </div>
+            <p />
+            <p class="lead"><a id="btnGetCooridinates" class="btn btn-primary btn-lg">Get coordinates</a></p>
+            
+            <p id="txtResult1A" class="lead text-info"></p>
+        </div>
+
+        <div class="col-sm-6 right-column">
+            <p class="lead">1.B - Enter the coordinates to get the row and column of the triangle.</p>
+
+            <div class="row">
+
+                <span class="left-margin-9">(</span>
+
+                <div class="cooridinate-col">
+                    <label for="V1x">V1x:</label>
+                    <input class="form-control" id="V1x" type="text" />
+                </div>
+
+                <span>,</span>
+
+                <div class="cooridinate-col">
+                    <label for="V1y">V1y:</label>
+                    <input class="form-control" id="V1y" type="text" />
+                </div>
+
+                <span>)  (</span>
+
+                <div class="cooridinate-col">
+                    <label for="V1x">V2x:</label>
+                    <input class="form-control" id="V2x" type="text" />
+                </div>
+
+                <span>,</span>
+
+                <div class="cooridinate-col">
+                    <label for="V1y">V2y:</label>
+                    <input class="form-control" id="V2y" type="text" />
+                </div>
+
+                <span>)  (</span>
+
+                <div class="cooridinate-col">
+                    <label for="V1x">V3x:</label>
+                    <input class="form-control" id="V3x" type="text" />
+                </div>
+                
+                <span>,</span>
+
+                <div class="cooridinate-col">
+                    <label for="V1y">V3y:</label>
+                    <input class="form-control" id="V3y" type="text" />
+                </div>
+
+                <span>)</span>
+            </div>
+            <p />
+            <p><a id="btnGetRowAndColumn" class="btn btn-primary btn-lg">Get row and column</a></p>
+
+
+            <p id="txtResult1B" class="lead text-info"></p>
+            <p />
+        </div>
+
+    </div>
+
+
+</div>
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#btnGetCooridinates").click(function () {
+
+                $("#txtResult1A").text("");
+                $("#txtResult1B").text("");
+                $("#txtResult1A").removeClass("text-danger").addClass("text-info");
+
+                var Triangle = new Object();
+                Triangle.Row = $("#rowlist option:selected").text();
+                Triangle.Column = $("#columnlist").val();
+
+                $.ajax({
+                    url: "/api/Triangle",
+                    type: "Post",
+                    contentType: "application/json",
+                    data: JSON.stringify(Triangle),
+
+                    success: function (data) {
+                        $("#txtResult1A").text(data.Result);
+                        if (data.Error) {
+                            $("#txtResult1A").removeClass("text-info").addClass("text-danger");
+                        }
+                        else {
+                            $("#V1x").val(data.V1x);
+                            $("#V1y").val(data.V1y);
+                            $("#V2x").val(data.V2x);
+                            $("#V2y").val(data.V2y);
+                            $("#V3x").val(data.V3x);
+                            $("#V3y").val(data.V3y);
+                        }
+                    },
+                    error: function (request, status, error) {
+                        $("#txtResult1A").text(request.responseText);
+                        $("#txtResult1A").removeClass("text-info").addClass("text-danger");
+                    } 
+                });
+            });
+
+            $("#btnGetRowAndColumn").click(function () {
+
+                $("#txtResult1A").text("");
+                $("#txtResult1B").text("");
+                $("#txtResult1B").removeClass("text-danger").addClass("text-info");
+
+                var Triangle = new Object();
+                Triangle.V1x = $("#V1x").val();
+                Triangle.V1y = $("#V1y").val();
+                Triangle.V2x = $("#V2x").val();
+                Triangle.V2y = $("#V2y").val();
+                Triangle.V3x = $("#V3x").val();
+                Triangle.V3y = $("#V3y").val();
+
+                $.ajax({
+                    url: "/api/Triangle",
+                    type: "Post",
+                    contentType: "application/json",
+                    data: JSON.stringify(Triangle),
+
+                    success: function (data) {
+                        $("#txtResult1B").text(data.Result);
+                        if (data.Error)
+                            $("#txtResult1B").removeClass("text-info").addClass("text-danger");
+
+                    },
+                    error: function (request, status, error) {
+                        $("#txtResult1B").text(request.responseText);
+                        $("#txtResult1B").removeClass("text-info").addClass("text-danger");
+                    }
+                });
+            });
+        });</script>
+}
+

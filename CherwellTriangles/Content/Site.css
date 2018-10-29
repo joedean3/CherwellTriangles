@@ -1,0 +1,45 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.row-height
+{
+    height: 288px;
+}
+
+.cooridinate-col {
+    width:66px;
+    display:inline-block;
+}
+
+.left-margin-9
+{
+    margin-left:9px;
+}
+
+.left-column
+{
+    background-color: lavender;
+    height: 100%;
+}
+
+.right-column
+{
+    background-color: lavenderblush;
+    height:100%;
+}
+
